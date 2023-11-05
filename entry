@@ -1,0 +1,51 @@
+import java.util.Scanner;
+
+public class CaesarCipher {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Gather user inputs
+        System.out.print("Enter the message: ");
+        String message = scanner.nextLine();
+        System.out.print("Enter the encryption key (lowercase letters only): ");
+        String encryptionKey = scanner.nextLine();
+
+        // Encrypt the message
+        String encryptedMessage = encrypt(message, encryptionKey);
+        System.out.println("Encrypted: " + encryptedMessage);
+
+        // Decrypt the message
+        String decryptedMessage = decrypt(encryptedMessage, encryptionKey);
+        System.out.println("Decrypted: " + decryptedMessage);
+
+        scanner.close();
+    }
+
+    public static String encrypt(String message, String key) {
+        StringBuilder encrypted = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
+            char character = message.charAt(i);
+            if (Character.isLetter(character)) {
+                char shiftedChar = (char) (((character - 'a' + key.charAt(i % key.length()) - 'a') % 26) + 'a');
+                encrypted.append(shiftedChar);
+            } else {
+                encrypted.append(character);
+            }
+        }
+        return encrypted.toString();
+    }
+
+    public static String decrypt(String encryptedMessage, String key) {
+        StringBuilder decrypted = new StringBuilder();
+        for (int i = 0; i < encryptedMessage.length(); i++) {
+            char character = encryptedMessage.charAt(i);
+            if (Character.isLetter(character)) {
+                char shiftedChar = (char) (((character - 'a' - key.charAt(i % key.length()) + 'a' + 26) % 26) + 'a');
+                decrypted.append(shiftedChar);
+            } else {
+                decrypted.append(character);
+            }
+        }
+        return decrypted.toString();
+    }
+}
